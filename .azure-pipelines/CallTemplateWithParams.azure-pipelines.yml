@@ -1,0 +1,4 @@
+stages:
+  - template: templates/TemplateWithoutParams.azure-pipelines.yml
+    parameters:
+      testParam: Hello

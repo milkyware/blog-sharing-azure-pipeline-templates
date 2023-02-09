@@ -1,0 +1,39 @@
+name: $(Date:yy.MM.dd)$(Rev:.rr)
+
+stages:
+  - stage: Build
+    jobs:
+      - job: 
+        steps:
+          - bash: echo 'Bulding'
+
+          - task: Bash@3
+            displayName: Print environment variables
+            inputs:
+              script: env | sort
+              targetType: inline
+
+  - stage: DeployCodeDev
+    jobs:
+      - job: 
+        steps:
+          - bash: echo 'DeployCodeDev'
+
+  - stage: DeployCodeInt
+    jobs:
+      - job: 
+        steps:
+          - bash: echo 'DeployCodeInt'
+
+  - stage: DeployNetworkDev
+    dependsOn: Build
+    jobs:
+      - job: 
+        steps:
+          - bash: echo 'DeployNetworkDev'
+
+  - stage: DeployNetworkInt
+    jobs:
+      - job: 
+        steps:
+          - bash: echo 'DeployNetworkInt'

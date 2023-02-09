@@ -1,0 +1,21 @@
+parameters:
+  - name: testParam
+    type: string
+  - name: defaultParam
+    type: string
+    default: 'World'
+
+stages:
+  - stage:
+    jobs:
+      - job: 
+        steps:
+          - task: Bash@3
+            displayName: Print environment variables
+            inputs:
+              script: env | sort
+              targetType: inline
+
+          - bash: echo '${{parameters.testParam}}'
+
+          - bash: echo '${{parameters.defaultParam}}'
