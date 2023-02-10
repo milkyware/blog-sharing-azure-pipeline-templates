@@ -1,3 +1,5 @@
+name: $(Date:yy.MM.dd)$(Rev:.rr)
+
 stages:
   - template: templates/TemplateWithParams.azure-pipelines.yml
     parameters:
