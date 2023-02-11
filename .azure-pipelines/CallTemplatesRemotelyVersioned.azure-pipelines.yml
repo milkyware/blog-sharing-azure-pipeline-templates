@@ -1,0 +1,17 @@
+name: $(Date:yy.MM.dd)$(Rev:.rr)
+
+resources:
+  repositories:
+    - repository: PipelineTemplates
+      type: github
+      name: milkyware/blog-sharing-azure-pipeline-templates
+      ref: refs/tags/v1
+      endpoint: MilkyWare
+
+
+stages:
+  - template: .azure-pipelines/templates/TemplateWithoutParams.azure-pipelines.yml@PipelineTemplates
+
+  - template: .azure-pipelines/templates/TemplateWithParams.azure-pipelines.yml@PipelineTemplates
+    parameters:
+      testParam: Hello
