@@ -1,0 +1,37 @@
+parameters:
+  - name: tag
+    displayName: the name of the tag to create on the current repo
+    type: string
+    default: v$(build.buildnumber)
+
+stages:
+  - stage: GitTag
+    displayName: Git Tag
+    jobs:
+      - job: Job
+        steps:        
+          - task: Bash@3
+            name: PrintVariables
+            displayName: Print environment variables
+            inputs:
+              targetType: inline
+              script: env | sort
+        
+          - task: PowerShell@2
+            displayName: Az DevOps Install
+            inputs:
+              pwsh: true
+              targetType: inline
+              script: |
+                az extension add --name azure-devops
+        
+          - task: PowerShell@2
+            displayName: Az DevOps Tag Repo
+            env:
+              AZURE_DEVOPS_EXT_PAT: $(System.AccessToken)
+            inputs:
+              pwsh: true
+              targetType: inline
+              script: |
+                $ref = git log -1 --format="%H"
+                az repos ref create --name "tags/${{parameters.tag}}" --object-id $ref --org $(System.CollectionUri) --project $(System.TeamProject) --repository $(Build.Repository.Name)
